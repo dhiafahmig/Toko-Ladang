@@ -21,9 +21,10 @@ class Laporan_controller extends CI_Controller {
     // PENJUALAN
     public function laporan_penjualan()
     {
-        $data['title'] = 'Laporan Penjualan Bulanan';
+        $data['title'] = 'Laporan Penjualan     ';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         
+        $data['get_sal'] = $this->Data_apotek->get_sales();
         $data["tahun"] = $this->Laporan_model->gettahun();
 
         $this->load->view('templates/header', $data);
@@ -35,10 +36,13 @@ class Laporan_controller extends CI_Controller {
 
     public function cetak_laporan_penjualan()
     {
-        $data['title'] = 'Laporan Penjualan Bulanan';
+        $data['title'] = 'Laporan Penjualan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        
+
 
         // $data['sumJual'] = $this->Laporan_model->show_invoice('tb_penjualan')->result();
+        $nama_sales  = $this->input->post('nama_sales');
         $tanggalawal = $this->input->post('tanggalawal');
         $tanggalakhir = $this->input->post('tanggalakhir');
         $tahun1 = $this->input->post('tahun1');
@@ -71,6 +75,16 @@ class Laporan_controller extends CI_Controller {
             $data['judul'] = "Laporan Penjualan PerTahun";
             $data['datafilter'] = $this->Laporan_model->filterbytahun($tahun2);
             $data['subjudul'] = 'Tahun : ' .$tahun2;
+            
+            $this->load->view('templates/header', $data);
+            $this->load->view('user/cetak_laporan_penjualan', $data);
+            $this->load->view('templates/footer');
+        }
+
+        else if ($nilaifilter == 4) {
+            $data['judul'] = "Laporan Penjualan PerSales";
+            $data['datafilter'] = $this->Laporan_model->filterbysales($nama_sales);
+            $data['subjudul'] = 'Nama Sales : ' .$nama_sales;
             
             $this->load->view('templates/header', $data);
             $this->load->view('user/cetak_laporan_penjualan', $data);

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="text-center">
-        <h1>APOTEK KIKI FARMA</h1>
+        <h1>SIPlah Toko Ladang Cabang Bandar Lampung</h1>
         <h3><?= $judul; ?></h3>
         <h6><?= $subjudul; ?></h6>
     </div>
@@ -12,7 +12,7 @@
             <tr>
                 <th>No Referensi</th>
                 <th>Nama Pembeli</th>
-                <th>Nama Obat</th>
+                <th>Nama Barang</th>
                 <th>Tanggal Transaksi</th>
                 <th>Banyak</th>
                 <th>Grandtotal</th>
@@ -24,7 +24,7 @@
             <tr>
                 <td><?= $data->ref; ?></td>
                 <td><?= $data->nama_pembeli; ?></td>
-                <td><?= $data->nama_obat; ?></td>
+                <td><?= $data->nama_barang; ?></td>
                 <td><?= date('j F Y',strtotime($data->tgl_beli)); ?></td>
                 <td><?= $data->banyak; ?></td>
                 <td>Rp <?= number_format($data->subtotal); ?></td>

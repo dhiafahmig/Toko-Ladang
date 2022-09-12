@@ -13,9 +13,10 @@
                     <thead>
                         <tr>
                             <th>Kode Referensi</th>
+                            <th>Nama Sales</th>
                             <th>Nama Pembeli</th>
                             <th>Tanggal Jual</th>
-                            <th>Nama Obat</th>
+                            <th>Nama Barang</th>
                             <th>Harga Jual</th>
                             <th>Banyak</th>
                             <th>Total</th>
@@ -28,9 +29,10 @@
                     ?>
                         <tr>
                             <td><?= $data->ref; ?></td>
+                            <td><?= $data->nama_sales; ?></td>
                             <td><?= $data->nama_pembeli; ?></td>
                             <td><?= date('j F Y',strtotime($data->tgl_beli)); ?></td>
-                            <td><?= $data->nama_obat; ?></td>
+                            <td><?= $data->nama_barang; ?></td>
                             <td>Rp <?= number_format($data->h_beli); ?></td>
                             <td><?= $data->banyak; ?></td>
                             <td>Rp <?php echo number_format($data->grandtotal) ?></td>

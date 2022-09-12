@@ -203,6 +203,22 @@ class Data_apotek extends CI_Model
         return $data;
     }  
 
+    public function get_brand()
+    {
+        $data = array();
+        $query = $this->db->get('tb_barang')->result_array();
+
+        if( is_array($query) && count ($query) > 0 )
+        {
+            foreach ($query as $row ) 
+        {
+            $data[$row['nama_brand']] = $row['nama_brand'];
+        }
+        }
+        asort($data);
+        return $data;
+    }  
+
     function get_sales()
     {
         $data = array();
@@ -213,6 +229,22 @@ class Data_apotek extends CI_Model
         foreach ($query as $row ) 
         {
           $data[$row['nama_sales']] = $row['nama_sales'];
+        }
+        }
+        asort($data);
+        return $data;
+    }
+
+    function get_sekolah()
+    {
+        $data = array();
+        $query = $this->db->get('tb_sekolah')->result_array();
+
+        if( is_array($query) && count ($query) > 0 )
+        {
+        foreach ($query as $row ) 
+        {
+          $data[$row['nama_sekolah']] = $row['nama_sekolah'];
         }
         }
         asort($data);
@@ -329,11 +361,11 @@ class Data_apotek extends CI_Model
     function get_product($nama_barang)
     {  
         $hasil = array();
-        $hsl=$this->db->query("SELECT * FROM tb_barang WHERE nama_barang='$nama_barang");
+        $hsl=$this->db->query("SELECT * FROM tb_barang WHERE nama_barang='$nama_barang'");
         if($hsl->num_rows()>0){
             foreach ($hsl->result() as $data) {
                 $hasil=array(
-                    'nama_obat' => $data->nama_barang,
+                    'nama_barang' => $data->nama_barang,
                     'nama_brand' => $data->nama_brand,
                     'stok' => $data->stok,
                     'nama_kat' => $data->nama_kat,
@@ -346,16 +378,16 @@ class Data_apotek extends CI_Model
         return $hasil;
     }
 
-    function get_medicine()
+    function get_barang()
     {
         $data = array();
-        $query = $this->db->get('tb_obat')->result_array();
+        $query = $this->db->get('tb_barang')->result_array();
 
         if( is_array($query) && count ($query) > 0 )
         {
         foreach ($query as $row ) 
         {
-          $data[$row['nama_obat']] = $row['nama_obat'];
+          $data[$row['nama_barang']] = $row['nama_barang'];
         }
         }
         asort($data);
@@ -370,27 +402,29 @@ class Data_apotek extends CI_Model
 			$tgl_beli = date("Y-m-d",strtotime($this->input->post('tgl_beli')));
 			$grandtotal = $this->input->post('grandtotal');
 			$ref = generateRandomString();
-			$nama_obat = $this->input->post('nama_obat');
+            $nama_sales = $this->input->post('nama_sales');
+			$nama_barang = $this->input->post('nama_barang');
 			$h_beli = $this->input->post('h_beli');
 			$banyak = $this->input->post('banyak');
 			$subtotal = $this->input->post('subtotal');
 
-		foreach($nama_obat as $key=>$val){
+		foreach($nama_barang as $key=>$val){
 		   
 		$data[] = array(
 				'nama_pembeli' => $nama_pembeli,
 				'tgl_beli' => $tgl_beli,
 				'grandtotal' => $grandtotal,
 				'ref' => $ref,
-				'nama_obat' => $val,
+                'nama_sales' => $nama_sales[$key],
+				'nama_barang' => $val,
 				'h_beli' => $h_beli[$key],
 				'banyak' => $banyak[$key],
 				'subtotal' => $subtotal[$key],
 				);
 
 		$this->db->set('stok', 'stok-'.$banyak[$key], FALSE);
-	    $this->db->where('nama_obat', $val);
-	    $updated = $this->db->update('tb_obat');
+	    $this->db->where('nama_barang', $val);
+	    $updated = $this->db->update('tb_barang');
 		
 		}
 		

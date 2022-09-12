@@ -376,8 +376,9 @@ class User extends CI_Controller
         $data['title'] = 'Tambah Penjualan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['get_med'] = $this->Data_apotek->get_medicine();
-        $data['get_sekolah'] = $this->Data_apotek->get_sekolah();
+        $data['get_bar'] = $this->Data_apotek->get_barang();
+        $data['get_sal'] = $this->Data_apotek->get_sales();
+        $data['get_sek'] = $this->Data_apotek->get_sekolah();
         $data['get_kat'] = $this->Data_apotek->get_kategori();
 
         $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required');
@@ -529,7 +530,7 @@ class User extends CI_Controller
 
     // WILAYAH HAPUS HAPUS DATA
 
-        // method hapus data obat
+        // method hapus data barang
     public function hapus_barang($id_barang)
     {
         $this->Data_apotek->hapus_barang($id_barang);
@@ -560,6 +561,14 @@ class User extends CI_Controller
         $this->session->set_flashdata('flash', 'dihapus');
         redirect('user/lihat_sales');
     }
+
+    // method hapus penjualan
+       public function hapus_penjualan($id_jual)
+       {
+           $this->Data_apotek->hapus_penjualan($id_jual);
+           $this->session->set_flashdata('flash', 'dihapus');
+           redirect('user/lihat_penjualan');
+       }
 
     // TRANSAKSI
     function getmedbysupplier(){
