@@ -11,9 +11,7 @@ class Laporan_controller extends CI_Controller {
         $this->load->library('session');
 
         $data['habis'] = $this->Data_apotek->countstock();
-        $data['expired'] = $this->Data_apotek->countexp();
         $data['hampir_habis'] = $this->Data_apotek->hampir_habis();
-        $data['hampir_exp'] = $this->Data_apotek->hampir_kadal();
         $this->load->view('templates/topbar', $data, true);
 
     }
@@ -24,6 +22,7 @@ class Laporan_controller extends CI_Controller {
         $data['title'] = 'Laporan Penjualan     ';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         
+        $data['get_wil'] = $this->Data_apotek->get_wilayah();
         $data['get_sal'] = $this->Data_apotek->get_sales();
         $data["tahun"] = $this->Laporan_model->gettahun();
 
@@ -42,6 +41,7 @@ class Laporan_controller extends CI_Controller {
 
 
         // $data['sumJual'] = $this->Laporan_model->show_invoice('tb_penjualan')->result();
+        $wilayah  = $this->input->post('wilayah');
         $nama_sales  = $this->input->post('nama_sales');
         $tanggalawal = $this->input->post('tanggalawal');
         $tanggalakhir = $this->input->post('tanggalakhir');
@@ -85,6 +85,16 @@ class Laporan_controller extends CI_Controller {
             $data['judul'] = "Laporan Penjualan PerSales";
             $data['datafilter'] = $this->Laporan_model->filterbysales($nama_sales);
             $data['subjudul'] = 'Nama Sales : ' .$nama_sales;
+            
+            $this->load->view('templates/header', $data);
+            $this->load->view('user/cetak_laporan_penjualan', $data);
+            $this->load->view('templates/footer');
+        }
+
+        else if ($nilaifilter == 5) {
+            $data['judul'] = "Laporan Penjualan PerWilayah";
+            $data['datafilter'] = $this->Laporan_model->filterbywilayah($wilayah);
+            $data['subjudul'] = 'Nama Wilayah : ' .$wilayah;
             
             $this->load->view('templates/header', $data);
             $this->load->view('user/cetak_laporan_penjualan', $data);

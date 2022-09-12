@@ -17,9 +17,7 @@ class User extends CI_Controller
         $this->load->library('table');
 
         $data['habis'] = $this->Data_apotek->countstock();
-        $data['expired'] = $this->Data_apotek->countexp();
         $data['hampir_habis'] = $this->Data_apotek->hampir_habis();
-        $data['hampir_exp'] = $this->Data_apotek->hampir_kadal();
         $this->load->view('templates/topbar', $data, true);
 
     }
@@ -36,7 +34,7 @@ class User extends CI_Controller
         $data['sumSales'] = $this->Data_apotek->total_sales();
         $data['sumSekolah'] = $this->Data_apotek->total_sekolah();
         $data['sumJual'] = $this->Data_apotek->count_totaljual();
-        $data['sumBeli'] = $this->Data_apotek->count_totalbeli();
+
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -216,23 +214,6 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    
-         // method lihat pembelian
-    public function lihat_pembelian()
-    {
-        $data['title'] = 'Tabel Pembelian Obat';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        // queri pemanggilan tabel di DB
-        $data['pembelian'] = $this->Data_apotek->getDataApotek('tb_pembelian');
-        $data['tb_beli'] = $this->Data_apotek->pembelian()->result();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('user/lihat_pembelian', $data);
-        $this->load->view('templates/footer');
-    }
 
 
     // WILAYAH INPUT INPUT DATA
@@ -381,8 +362,15 @@ class User extends CI_Controller
         $data['get_sek'] = $this->Data_apotek->get_sekolah();
         $data['get_kat'] = $this->Data_apotek->get_kategori();
 
+
         $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required');
+
+        $this->form_validation->set_rules('nama_sekolah', 'Nama Sekolah', 'required');
+
+        $this->form_validation->set_rules('wilayah', 'Wilayah', 'required');
+
         $this->form_validation->set_rules('tgl_beli', 'Tanggal Beli', 'required');
+
 
         if($this->form_validation->run() == FALSE)
         {
@@ -526,7 +514,13 @@ class User extends CI_Controller
 		echo json_encode($data);
 	}
 
-    
+    function get_data_wil()
+    {
+        $nama_sekolah=$this->input->post('nama_sekolah');
+        $data=$this->Data_apotek->get_data_wil($nama_sekolah);
+        echo json_encode($data);
+    }
+
 
     // WILAYAH HAPUS HAPUS DATA
 
@@ -611,24 +605,4 @@ class User extends CI_Controller
         $this->load->view('user/lihat_nota_penjualan', $data);
         $this->load->view('templates/footer');
     }
-
-    public function lihat_nota_pembelian($ref)
-    {
-        $data['title'] = 'Tanda Bukti';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $where = array('ref' => $ref);
-        $data['table_invoice'] = $this->Data_apotek->show_data($where, 'tb_pembelian')->result();
-		$data['show_invoice'] = $this->Data_apotek->show_invoice($where, 'tb_pembelian')->result();
-
-        // queri pemanggilan tabel di DB
-        $data['penjualan'] = $this->Data_apotek->getDataApotek('tb_penjualan');
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('user/lihat_nota_pembelian', $data);
-        $this->load->view('templates/footer');
-    }
-    
 }

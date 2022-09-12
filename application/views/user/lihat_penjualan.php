@@ -15,6 +15,8 @@
                             <th>Kode Referensi</th>
                             <th>Nama Sales</th>
                             <th>Nama Pembeli</th>
+                            <th>Nama Sekolah</th>
+                            <th>Wilayah</th>
                             <th>Tanggal Jual</th>
                             <th>Nama Barang</th>
                             <th>Harga Jual</th>
@@ -31,6 +33,8 @@
                             <td><?= $data->ref; ?></td>
                             <td><?= $data->nama_sales; ?></td>
                             <td><?= $data->nama_pembeli; ?></td>
+                            <td><?= $data->nama_sekolah; ?></td>
+                            <td><?= $data->wilayah; ?></td>
                             <td><?= date('j F Y',strtotime($data->tgl_beli)); ?></td>
                             <td><?= $data->nama_barang; ?></td>
                             <td>Rp <?= number_format($data->h_beli); ?></td>

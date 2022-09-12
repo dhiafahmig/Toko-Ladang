@@ -235,6 +235,22 @@ class Data_apotek extends CI_Model
         return $data;
     }
 
+    function get_wilayah()
+    {
+        $data = array();
+        $query = $this->db->get('tb_sekolah')->result_array();
+
+        if( is_array($query) && count ($query) > 0 )
+        {
+        foreach ($query as $row ) 
+        {
+          $data[$row['wilayah']] = $row['wilayah'];
+        }
+        }
+        asort($data);
+        return $data;
+    }
+
     function get_sekolah()
     {
         $data = array();
@@ -249,6 +265,12 @@ class Data_apotek extends CI_Model
         }
         asort($data);
         return $data;
+    }
+
+    function get_data_wil($nama_sekolah)
+    {  
+        $query = $this->db->query("SELECT * FROM tb_sekolah WHERE nama_sekolah = '$nama_sekolah' ORDER BY nama_sekolah ASC");
+                return $query->result();
     }
 
 
@@ -351,13 +373,7 @@ class Data_apotek extends CI_Model
         $this->db->delete('tb_penjualan');
     }
 
-    // TRASAKSI
-    function getmedbysupplier($nama_sekolah){
-        $hasil=$this->db->query("SELECT * FROM tb_obat WHERE nama_sekolah='$nama_sekolah'");
-        return $hasil->result();
-    }
-
-    
+    // TRASAKSI    
     function get_product($nama_barang)
     {  
         $hasil = array();
@@ -403,6 +419,8 @@ class Data_apotek extends CI_Model
 			$grandtotal = $this->input->post('grandtotal');
 			$ref = generateRandomString();
             $nama_sales = $this->input->post('nama_sales');
+            $nama_sekolah = $this->input->post('nama_sekolah');
+            $wilayah = $this->input->post('wilayah');
 			$nama_barang = $this->input->post('nama_barang');
 			$h_beli = $this->input->post('h_beli');
 			$banyak = $this->input->post('banyak');
@@ -415,7 +433,9 @@ class Data_apotek extends CI_Model
 				'tgl_beli' => $tgl_beli,
 				'grandtotal' => $grandtotal,
 				'ref' => $ref,
-                'nama_sales' => $nama_sales[$key],
+                'nama_sales'  => $nama_sales[$key],
+                'nama_sekolah' => $nama_sekolah,
+                'wilayah' => $wilayah,
 				'nama_barang' => $val,
 				'h_beli' => $h_beli[$key],
 				'banyak' => $banyak[$key],
@@ -429,40 +449,6 @@ class Data_apotek extends CI_Model
 		}
 		
 		$this->db->insert_batch('tb_penjualan', $data);
-	}
-
-    function tambah_pembelian(){
-		 
-			$nama_sekolah = $this->input->post('nama_sekolah');
-			$tgl_beli = date("Y-m-d",strtotime($this->input->post('tgl_beli')));
-			$grandtotal = $this->input->post('grandtotal');
-			$ref = generateRandomString();
-			$nama_obat = $this->input->post('nama_obat');
-			$h_beli = $this->input->post('h_beli');
-			$banyak = $this->input->post('banyak');
-			$subtotal = $this->input->post('subtotal');
-
-		foreach($nama_obat as $key=>$val){
-		   
-		$data[] = array(
-				'nama_sekolah' => $nama_sekolah,
-				'tgl_beli' => $tgl_beli,
-				'grandtotal' => $grandtotal,
-				'ref' => $ref,
-				'nama_obat' => $val,
-				'h_beli' => $h_beli[$key],
-				'banyak' => $banyak[$key],
-				'subtotal' => $subtotal[$key],
-				 
-				);
-
-		$this->db->set('stok', 'stok+'.$banyak[$key], FALSE);
-	    $this->db->where('nama_obat', $val);
-	    $updated = $this->db->update('tb_obat');
-		
-		}
-		
-		$this->db->insert_batch('tb_pembelian', $data);	
 	}
 
     // LAPORAN

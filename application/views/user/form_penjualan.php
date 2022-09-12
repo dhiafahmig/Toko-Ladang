@@ -21,6 +21,31 @@
                             </div>
                         </div>
 
+                        <div class="row justify-content-center pt-2">
+                            <div class="col-2">
+                                <label for="nama_sekolah" class="col-form-label">Nama Sekolah</label>
+                            </div>
+                            <div class="col-3">
+                                <select name="nama_sekolah" id="nama_sekolah"
+                                    class="select2_single form-control nama_sekolah" tabindex="-1" required="required">
+                                    <option selected="true" value="" disabled></option>
+                                    <?php foreach($get_sek as $gs){ ?>
+                                    <option value="<?php echo $gs; ?>"><?php echo $gs; ?></option>
+                                    <?php  }?>
+                                </select>
+                                <?= form_error('nama_sekolah', '<small class="text-danger pl-3">' ,'</small>'); ?>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center pt-2">
+                            <div class="col-2">
+                                <label for="wilayah" class="col-form-label">Wilayah</label>
+                            </div>
+                            <div class="col-3">
+						    <input type="text" name="wilayah" id="wilayah" class="form-control" readonly required>
+					    </div>
+                        </div>
+
                         <div class="row justify-content-center pt-2 mb-4">
                             <div class="col-2">
                                 <label for="tgl_beli" class="col-form-label">Tanggal Penjualan</label>
@@ -39,7 +64,8 @@
                         <table id="penjualan" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center">Obat yang dijual</th>
+                                    <th style="text-align: center">Nama Sales</th>
+                                    <th style="text-align: center">Barang yang dijual</th>
                                     <th style="text-align: center">Sisa Stok</th>
                                     <th style="text-align: center">Kategori</th>
                                     <th style="text-align: center">Harga</th>
@@ -85,7 +111,7 @@
 </div>
 </div>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
@@ -103,10 +129,12 @@ var counter = 1;
 
 addpenjualan.onclick = function(event) {
     penjualan.row.add([
-        '<select required="required" style="width:100%" class="form-control nama_obat" id="nama_obat' +
-        counter + '" name="nama_obat[]" data-stok="#stok' + counter + '" data-nama_kat="#nama_kat' +
+        '<select required="required" style="width:100%" class="form-control nama_sales" id="nama_sales' +
+        counter + '" name="nama_sales[]"><option selected="true" value="" disabled ></option><?php foreach ($get_sal as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
+        '<select required="required" style="width:100%" class="form-control nama_barang" id="nama_barang' +
+        counter + '" name="nama_barang[]" data-stok="#stok' + counter + '" data-nama_kat="#nama_kat' +
         counter + '" data-h_beli="#h_beli' + counter +
-        '"><option selected="true" value="" disabled ></option><?php foreach ($get_med as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
+        '"><option selected="true" value="" disabled ></option><?php foreach ($get_bar as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
         '<input id="stok' + counter + '" name="stok[]" class="form-control stok" readonly >',
         '<input id="nama_kat' + counter + '" name="nama_kat[]" class="form-control" readonly>',
         '<input id="h_beli' + counter +
@@ -142,20 +170,21 @@ $('#penjualan').on("click", "#removeproduk", function() {
 });
 
 
-$('#penjualan').on('change', '.nama_obat', function() {
+
+$('#penjualan').on('change', '.nama_barang', function() {
     var $select = $(this);
-    var nama_obat = $select.val();
+    var nama_barang = $select.val();
 
     $.ajax({
         type: "POST",
         url: "<?php echo base_url('user/product') ?>",
         dataType: "JSON",
         data: {
-            nama_obat: nama_obat
+            nama_barang: nama_barang
         },
         cache: false,
         success: function(data) {
-            $.each(data, function(nama_obat, stok, nama_kat, h_beli) {
+            $.each(data, function(nama_barang, stok, nama_kat, h_beli) {
                 $($select.data('stok')).val(data.stok);
                 $($select.data('nama_kat')).val(data.nama_kat);
                 $($select.data('h_beli')).val(data.h_beli);
@@ -200,3 +229,38 @@ function updateTotal() {
     $('#grandtotal').val(grandtotal);
 }
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $(document).ready(function() {
+            // $('#id_prodi').hide();
+            tampil_wil();
+        })
+
+        function tampil_wil() {
+            $('#nama_sekolah').change(function() {
+                let get_data_wil = $('#nama_sekolah').val();
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        nama_sekolah: get_data_wil
+                    },
+                    url: "<?= base_url("user/get_data_wil") ?>",
+                    success: function(data) {
+                        // console.log(data);
+
+                        let html = "";
+                        let i;
+
+                        for (i = 0; i < data.length; i++) {
+                            $("#wilayah").val(data[i].wilayah);
+                        }
+                    }
+                });
+            })
+        }
+    });
+    </script>

@@ -29,6 +29,29 @@
         </div>
 
         <div class="card mt-3 mr-3 ml-3">
+            <h5 class="card-header">Cetak Laporan PerWilayah</h5>
+            <div class="card-body">
+                <form action="<?php echo base_url('Laporan_controller/cetak_laporan_penjualan');?>" method="POST"
+                    target="_BLANK">
+
+                    <input type="hidden" name="nilaifilter" value="5">
+
+                    <div class="row">
+                    <select name="wilayah" id="wilayah" class="select2_single form-control" tabindex="-1"
+                            required="required">
+                            <option selected="true" value="" disabled></option>
+                            <?php foreach($get_wil as $gs){ ?>
+                            <option value="<?php echo $gs; ?>"><?php echo $gs; ?></option>
+                            <?php  }?>
+                        </select>
+                    <button type="submit" id="submit" name="submit" class="btn btn-success mt-2 ">Cetak
+                        Laporan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-3 mr-3 ml-3">
             <h5 class="card-header">Cetak Laporan Pertanggal</h5>
             <div class="card-body">
                 <form action="<?php echo base_url('Laporan_controller/cetak_laporan_penjualan');?>" method="POST"

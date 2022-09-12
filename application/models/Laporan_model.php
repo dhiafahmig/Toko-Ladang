@@ -39,6 +39,12 @@ class Laporan_model extends CI_Model {
         return $query->result();
     }  
 
+    function filterbywilayah($wilayah){
+        $query = $this->db->query("SELECT * from tb_penjualan where wilayah = '$wilayah' ORDER BY tgl_beli ASC");
+
+        return $query->result();
+    }  
+
     // function show_invoice($table){      
     //     $this->db->select('*');
     //     $this->db->select_sum('grandtotal');

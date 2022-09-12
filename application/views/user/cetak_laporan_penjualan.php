@@ -12,6 +12,8 @@
             <tr>
                 <th>No Referensi</th>
                 <th>Nama Pembeli</th>
+                <th>Nama Sekolah</th>
+                <th>Wilayah</th>
                 <th>Nama Barang</th>
                 <th>Tanggal Transaksi</th>
                 <th>Banyak</th>
@@ -24,6 +26,8 @@
             <tr>
                 <td><?= $data->ref; ?></td>
                 <td><?= $data->nama_pembeli; ?></td>
+                <td><?= $data->nama_sekolah; ?></td>
+                <td><?= $data->wilayah; ?></td>
                 <td><?= $data->nama_barang; ?></td>
                 <td><?= date('j F Y',strtotime($data->tgl_beli)); ?></td>
                 <td><?= $data->banyak; ?></td>
