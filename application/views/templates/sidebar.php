@@ -41,7 +41,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBarang" aria-expanded="true"
             aria-controls="collapseBarang">
-            <i class="fa fa-fw fa-medkit"></i>
+            <i class="fa fa-fw fa-marker"></i>
             <span>Barang</span>
         </a>
         <div id="collapseBarang" class="collapse" aria-labelledby="headingBarang" data-parent="#accordionSidebar">
@@ -71,7 +71,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSekolah"
             aria-expanded="true" aria-controls="collapseSekolah">
-            <i class="fa fa-fw fa-users"></i>
+            <i class="fa fa-fw fa-school"></i>
             <span>Sekolah</span>
         </a>
         <div id="collapseSekolah" class="collapse" aria-labelledby="headingSekolah" data-parent="#accordionSidebar">
@@ -86,7 +86,7 @@
      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales"
             aria-expanded="true" aria-controls="collapseSales">
-            <i class="fa fa-fw fa-users"></i>
+            <i class="fa fa-fw fa-user-plus"></i>
             <span>Sales</span>
         </a>
         <div id="collapseSales" class="collapse" aria-labelledby="headingSales" data-parent="#accordionSidebar">
