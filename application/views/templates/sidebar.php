@@ -107,7 +107,6 @@
         <div id="collapseTransaksi" class="collapse" aria-labelledby="headingTransaksi" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="<?= base_url('user/lihat_penjualan')?>">Penjualan</a>
-                <a class="collapse-item" href="<?= base_url('user/lihat_pembelian')?>">Pembelian</a>
             </div>
         </div>
     </li>
@@ -124,8 +123,6 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="<?= base_url('laporan_controller/laporan_penjualan')?>">Laporan
                     Penjualan</a>
-                <a class="collapse-item" href="<?= base_url('laporan_controller/laporan_pembelian')?>"> Laporan
-                    Pembelian</a>
             </div>
         </div>
     </li>

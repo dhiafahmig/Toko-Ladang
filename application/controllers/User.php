@@ -11,13 +11,13 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Data_apotek');
+        $this->load->model('Data_toko');
         $this->load->library('form_validation');
         $this->load->library('session');
         $this->load->library('table');
 
-        $data['habis'] = $this->Data_apotek->countstock();
-        $data['hampir_habis'] = $this->Data_apotek->hampir_habis();
+        $data['habis'] = $this->Data_toko->countstock();
+        $data['hampir_habis'] = $this->Data_toko->hampir_habis();
         $this->load->view('templates/topbar', $data, true);
 
     }
@@ -30,10 +30,11 @@ class User extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' =>
         $this->session->userdata('email')])->row_array();
 
-        $data['sumBarang'] = $this->Data_apotek->total_barang();
-        $data['sumSales'] = $this->Data_apotek->total_sales();
-        $data['sumSekolah'] = $this->Data_apotek->total_sekolah();
-        $data['sumJual'] = $this->Data_apotek->count_totaljual();
+        $data['sumBarang'] = $this->Data_toko->total_barang();
+        $data['sumSales'] = $this->Data_toko->total_sales();
+        $data['sumSekolah'] = $this->Data_toko->total_sekolah();
+        $data['sumJual'] = $this->Data_toko->count_totaljual();
+        $data['sumModal'] = $this->Data_toko->count_totalbeli();
 
 
         $this->load->view('templates/header', $data);
@@ -43,73 +44,6 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-
-
-    // Tabel kedaluwarsa
-    public function tabel_kedaluwarsa()
-    {
-        $data['title'] = 'Tabel Kedaluwarsa';
-        $data['title1'] = 'Tabel Obat Akan Kedaluwarsa';
-        $data['title2'] = 'Tabel Obat Sudah Kedaluwarsa';
-
-        $data['table_almostexp'] = $this->Data_apotek->almostexp()->result();
-        $data['table_exp'] = $this->Data_apotek->expired()->result();
-
-        $data['user'] = $this->db->get_where('user', ['email' =>
-        $this->session->userdata('email')])->row_array();
-
-        // queri pemanggilan tabel di DB
-        $data['obat'] = $this->Data_apotek->getDataApotek('tb_obat');
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('user/tabel_kedaluwarsa', $data);
-        $this->load->view('templates/footer');
-    }
-
-        // Tabel stok
-    public function tabel_stok()
-    {
-        $data['title'] = 'Tabel Stok Obat';
-        $data['title1'] = 'Tabel Stok Obat Akan Habis';
-        $data['title2'] = 'Tabel Stok Obat Sudah Habis';
-
-
-        $data['habis_stok'] = $this->Data_apotek->habis_stok()->result();
-        $data['almstok'] = $this->Data_apotek->almoststok()->result();
-
-        $data['user'] = $this->db->get_where('user', ['email' =>
-        $this->session->userdata('email')])->row_array();
-
-        // queri pemanggilan tabel di DB
-        $data['obat'] = $this->Data_apotek->getDataApotek('tb_obat');
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('user/tabel_stok', $data);
-        $this->load->view('templates/footer');
-    }
-
-            // Tabel kedaluwarsa
-    //coba laporan baru
-    // public function lihat_laporan_penjualan()
-    // {
-    //     $data['title'] = 'Laporan Penjualan Bulanan';
-    //     $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-    //     $bulan=$this->input->post('bulan');
-    //     $tahun=$this->input->post('tahun');
-    //     $bulantahun=$bulan.$tahun;
-    //     $data['lap_jual'] = $this->db->query("SELECT * form tb_penjualan where tgl_beli='$bulantahun' ORDER BY id_jual ASC")->result();
-
-    //     $this->load->view('templates/header', $data);
-    //     $this->load->view('templates/sidebar', $data);
-    //     $this->load->view('templates/topbar', $data);
-    //     $this->load->view('user/laporan_penjualan', $data);
-    //     $this->load->view('templates/footer');
-    // }
     
     public function tabel_laporan()
     {
@@ -117,9 +51,9 @@ class User extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         // queri pemanggilan tabel di DB
-        $data['sumJual'] = $this->Data_apotek->count_totaljual();
-        $data['sumBeli'] = $this->Data_apotek->count_totalbeli();
-		$data['report'] = $this->Data_apotek->get_laporan();
+        $data['sumJual'] = $this->Data_toko->count_totaljual();
+        $data['sumBeli'] = $this->Data_toko->count_totalbeli();
+		$data['report'] = $this->Data_toko->get_laporan();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -136,8 +70,8 @@ class User extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         // queri pemanggilan tabel di DB
-        $data['barang'] = $this->Data_apotek->getDataApotek('tb_barang');
-        $data['kategori'] = $this->Data_apotek->getDataApotek('tb_kategori');
+        $data['barang'] = $this->Data_toko->getDataToko('tb_barang');
+        $data['kategori'] = $this->Data_toko->getDataToko('tb_kategori');
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -154,7 +88,7 @@ class User extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         // queri pemanggilan tabel di DB
-        $data['sekolah'] = $this->Data_apotek->getDataApotek('tb_sekolah');
+        $data['sekolah'] = $this->Data_toko->getDataToko('tb_sekolah');
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -171,7 +105,7 @@ class User extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         // queri pemanggilan tabel di DB
-        $data['sales'] = $this->Data_apotek->getDataApotek('tb_sales');
+        $data['sales'] = $this->Data_toko->getDataToko('tb_sales');
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -188,7 +122,7 @@ class User extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         // queri pemanggilan tabel di DB
-        $data['kategori'] = $this->Data_apotek->getDataApotek('tb_kategori');
+        $data['kategori'] = $this->Data_toko->getDataToko('tb_kategori');
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -204,8 +138,8 @@ class User extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         // queri pemanggilan tabel di DB
-        $data['penjualan'] = $this->Data_apotek->getDataApotek('tb_penjualan');
-        $data['tb_jual'] = $this->Data_apotek->penjualan()->result();
+        $data['penjualan'] = $this->Data_toko->getDataToko('tb_penjualan');
+        $data['tb_jual'] = $this->Data_toko->penjualan()->result();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -223,7 +157,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Tambah Barang';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['get_kat'] = $this->Data_apotek->get_kategori();
+        $data['get_kat'] = $this->Data_toko->get_kategori();
 
         $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
         $this->form_validation->set_rules('nama_brand', 'Brand', 'required');
@@ -241,7 +175,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->tambah_barang();
+            $this->Data_toko->tambah_barang();
             $this->session->set_flashdata('flash','ditambahkan');
             redirect('user/lihat_barang');
         }
@@ -265,7 +199,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->tambah_kategori();
+            $this->Data_toko->tambah_kategori();
             $this->session->set_flashdata('flash','ditambahkan');
             redirect('user/lihat_kategori');
         }
@@ -292,7 +226,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->tambah_sekolah();
+            $this->Data_toko->tambah_sekolah();
             $this->session->set_flashdata('flash','ditambahkan');
             redirect('user/lihat_sekolah');
         }
@@ -317,7 +251,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->tambah_sales();
+            $this->Data_toko->tambah_sales();
             $this->session->set_flashdata('flash','ditambahkan');
             redirect('user/lihat_sales');
         }
@@ -330,8 +264,8 @@ class User extends CI_Controller
         $data['title'] = 'Tambah Pembelian dari Sekolah';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['get_sekolah'] = $this->Data_apotek->get_sekolah();
-        $data['get_med'] = $this->Data_apotek->get_medicine();
+        $data['get_sekolah'] = $this->Data_toko->get_sekolah();
+        $data['get_med'] = $this->Data_toko->get_medicine();
 
         $this->form_validation->set_rules('nama_sekolah', 'Nama Sekolah', 'required');
         $this->form_validation->set_rules('tgl_beli', 'Tanggal Beli', 'required');
@@ -345,7 +279,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->tambah_pembelian();
+            $this->Data_toko->tambah_pembelian();
             $this->session->set_flashdata('flash','ditambahkan');
             redirect('user/lihat_pembelian');
         }
@@ -357,10 +291,10 @@ class User extends CI_Controller
         $data['title'] = 'Tambah Penjualan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['get_bar'] = $this->Data_apotek->get_barang();
-        $data['get_sal'] = $this->Data_apotek->get_sales();
-        $data['get_sek'] = $this->Data_apotek->get_sekolah();
-        $data['get_kat'] = $this->Data_apotek->get_kategori();
+        $data['get_bar'] = $this->Data_toko->get_barang();
+        $data['get_sal'] = $this->Data_toko->get_sales();
+        $data['get_sek'] = $this->Data_toko->get_sekolah();
+        $data['get_kat'] = $this->Data_toko->get_kategori();
 
 
         $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required');
@@ -381,7 +315,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->tambah_penjualan();
+            $this->Data_toko->tambah_penjualan();
             $this->session->set_flashdata('flash','ditambahkan');
             redirect('user/lihat_penjualan');
         }
@@ -396,9 +330,9 @@ class User extends CI_Controller
         
         $data['title'] = 'Ubah Data Barang';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['barang'] = $this->Data_apotek->getBarang($id_barang);
+        $data['barang'] = $this->Data_toko->getBarang($id_barang);
 
-        $data['get_kat'] = $this->Data_apotek->get_kategori();
+        $data['get_kat'] = $this->Data_toko->get_kategori();
 
         $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
         $this->form_validation->set_rules('nama_brand', 'Brand', 'required');
@@ -418,7 +352,7 @@ class User extends CI_Controller
         }
         else {
             // var_dump($this->input->post("h_jual"));die;
-            $this->Data_apotek->edit_barang();
+            $this->Data_toko->edit_barang();
             $this->session->set_flashdata('flash','diubah');
             redirect('user/lihat_barang');
         }
@@ -429,7 +363,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Ubah Kategori';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['kategori'] = $this->Data_apotek->getKategori($id_kat);
+        $data['kategori'] = $this->Data_toko->getKategori($id_kat);
 
 
         $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required');
@@ -444,7 +378,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->edit_kat();
+            $this->Data_toko->edit_kat();
             $this->session->set_flashdata('flash','diubah');
             redirect('user/lihat_kategori');
         }
@@ -455,7 +389,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Ubah Sekolah';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['sekolah'] = $this->Data_apotek->getSekolah($id_sekolah);
+        $data['sekolah'] = $this->Data_toko->getSekolah($id_sekolah);
 
 
         $this->form_validation->set_rules('nama_sekolah', 'Nama Sekolah', 'required');
@@ -473,7 +407,7 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         }
         else {
-            $this->Data_apotek->edit_sekolah();
+            $this->Data_toko->edit_sekolah();
             $this->session->set_flashdata('flash','diubah');
             redirect('user/lihat_sekolah');
         }
@@ -484,7 +418,7 @@ class User extends CI_Controller
         {
             $data['title'] = 'Ubah Sales';
             $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-            $data['sales'] = $this->Data_apotek->getSales($id_sales);
+            $data['sales'] = $this->Data_toko->getSales($id_sales);
     
     
             $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'required');
@@ -500,7 +434,7 @@ class User extends CI_Controller
                 $this->load->view('templates/footer');
             }
             else {
-                $this->Data_apotek->edit_sales();
+                $this->Data_toko->edit_sales();
                 $this->session->set_flashdata('flash','diubah');
                 redirect('user/lihat_sales');
             }
@@ -510,14 +444,15 @@ class User extends CI_Controller
     function gabung()
 	{
        $tahun_beli=$this->input->post('tahun_beli');
-       	$data = $this->Data_apotek->get_gabung($tahun_beli);
+       	$data = $this->Data_toko->get_gabung($tahun_beli);
 		echo json_encode($data);
 	}
 
+    //Mendapatkan wilayah sesuai sekolah terdaftar
     function get_data_wil()
     {
         $nama_sekolah=$this->input->post('nama_sekolah');
-        $data=$this->Data_apotek->get_data_wil($nama_sekolah);
+        $data=$this->Data_toko->get_data_wil($nama_sekolah);
         echo json_encode($data);
     }
 
@@ -527,7 +462,7 @@ class User extends CI_Controller
         // method hapus data barang
     public function hapus_barang($id_barang)
     {
-        $this->Data_apotek->hapus_barang($id_barang);
+        $this->Data_toko->hapus_barang($id_barang);
         $this->session->set_flashdata('flash', 'dihapus');
         redirect('user/lihat_barang');
     }
@@ -535,7 +470,7 @@ class User extends CI_Controller
     // method hapus data kategori
     public function hapus_kategori($id_kat)
     {
-        $this->Data_apotek->hapus_kat($id_kat);
+        $this->Data_toko->hapus_kat($id_kat);
         $this->session->set_flashdata('flash', 'dihapus');
         redirect('user/lihat_kategori');
     }
@@ -543,7 +478,7 @@ class User extends CI_Controller
     // method hapus data kategori
     public function hapus_sekolah($id_sekolah)
     {
-        $this->Data_apotek->hapus_pmasok($id_sekolah);
+        $this->Data_toko->hapus_pmasok($id_sekolah);
         $this->session->set_flashdata('flash', 'dihapus');
         redirect('user/lihat_sekolah');
     }
@@ -551,7 +486,7 @@ class User extends CI_Controller
     // method hapus data sales
     public function hapus_sales($id_sales)
     {
-        $this->Data_apotek->hapus_sales($id_sales);
+        $this->Data_toko->hapus_sales($id_sales);
         $this->session->set_flashdata('flash', 'dihapus');
         redirect('user/lihat_sales');
     }
@@ -559,7 +494,7 @@ class User extends CI_Controller
     // method hapus penjualan
        public function hapus_penjualan($id_jual)
        {
-           $this->Data_apotek->hapus_penjualan($id_jual);
+           $this->Data_toko->hapus_penjualan($id_jual);
            $this->session->set_flashdata('flash', 'dihapus');
            redirect('user/lihat_penjualan');
        }
@@ -567,14 +502,14 @@ class User extends CI_Controller
     // TRANSAKSI
     function getmedbysupplier(){
         $nama_sekolah=$this->input->post('nama_sekolah');
-        $data=$this->Data_apotek->getmedbysupplier($nama_sekolah);
+        $data=$this->Data_toko->getmedbysupplier($nama_sekolah);
         echo json_encode($data);
     }
 
     function product()
 	{
 	    $nama_barang=$this->input->post('nama_barang');
-        $data=$this->Data_apotek->get_product($nama_barang);
+        $data=$this->Data_toko->get_product($nama_barang);
         echo json_encode($data);
 	}
 
@@ -582,7 +517,7 @@ class User extends CI_Controller
     function totale()
 	{
 		$tahun_beli=$this->input->post('tahun_beli');
-       	$data = $this->Data_apotek->get_total($tahun_beli);
+       	$data = $this->Data_toko->get_total($tahun_beli);
 		echo json_encode($data);
 	}
 
@@ -593,11 +528,11 @@ class User extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $where = array('ref' => $ref);
-        $data['table_invoice'] = $this->Data_apotek->show_data($where, 'tb_penjualan')->result();
-		$data['show_invoice'] = $this->Data_apotek->show_invoice($where, 'tb_penjualan')->result();
+        $data['table_invoice'] = $this->Data_toko->show_data($where, 'tb_penjualan')->result();
+		$data['show_invoice'] = $this->Data_toko->show_invoice($where, 'tb_penjualan')->result();
 
         // queri pemanggilan tabel di DB
-        $data['penjualan'] = $this->Data_apotek->getDataApotek('tb_penjualan');
+        $data['penjualan'] = $this->Data_toko->getDataToko('tb_penjualan');
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);

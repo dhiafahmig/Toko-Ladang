@@ -37,15 +37,12 @@
                             <td><?= $data->wilayah; ?></td>
                             <td><?= date('j F Y',strtotime($data->tgl_beli)); ?></td>
                             <td><?= $data->nama_barang; ?></td>
-                            <td>Rp <?= number_format($data->h_beli); ?></td>
+                            <td>Rp <?= number_format($data->h_jual); ?></td>
                             <td><?= $data->banyak; ?></td>
                             <td>Rp <?php echo number_format($data->grandtotal) ?></td>
                             <td style=" text-align: center;">
                                 <a href="<?= base_url('user/lihat_nota_penjualan/'). $data->ref?>"><button type="button"
                                         class="sbtn btn-success"><i class="fas fa-file-invoice"></i></button></a>
-                                 <a href="<?= base_url('user/edit_penjualan/'). $data->id_jual?>"><button type="edit"
-                                        class="sbtn btn-success"><i class="fas fa-edit"></i></button></a>
-
                                  <a href="<?= base_url('user/hapus_penjualan/'). $data->id_jual?>"><button type="delete"
                                         class="sbtn btn-danger" onclick="return confirm ('yakin?')"><i 
                                         class="fas fa-trash"></i></button></a>

@@ -21,9 +21,9 @@
                 <div class="col-sm-4">
                     Dari
                     <address>
-                        <strong>Apotek Kiki Farma</strong>
-                        <br>Jl. Panglima Polim no. 34, Segala Mider
-                        <br>Bandar Lampung
+                        <strong>SIPlah Toko Ladang</strong>
+                        <br> Jl. Ratu Dibalau No.148, Tj. Senang, Kec. Tj. Senang,
+                        <br> Kota Bandar Lampung, Lampung 35135
                         <br>Telp: 0888 1111 2222 3333
 
                     </address>
@@ -33,6 +33,7 @@
                     Pembeli
                     <address>
                         <strong><?php echo $i->nama_pembeli ?></strong>
+                        <br> <strong><?php echo $i->nama_sekolah ?></strong>
 
                         <br>Bandar Lampung
 
@@ -60,7 +61,7 @@
                         <thead>
                             <tr>
 
-                                <th>Nama Obat</th>
+                                <th>Nama Barang</th>
                                 <th>Harga satuan</th>
                                 <th>Banyak</th>
                                 <th>Subtotal</th>
@@ -69,8 +70,8 @@
                         <tbody>
                             <?php foreach($show_invoice as $si){ ?>
                             <tr>
-                                <td><?php echo $si->nama_obat ?></td>
-                                <td>Rp <?php echo number_format($si->h_beli) ?></td>
+                                <td><?php echo $si->nama_barang ?></td>
+                                <td>Rp <?php echo number_format($si->h_jual) ?></td>
                                 <td><?php echo $si->banyak ?></td>
                                 <td>Rp <?php echo number_format($si->subtotal) ?></td>
                             </tr>

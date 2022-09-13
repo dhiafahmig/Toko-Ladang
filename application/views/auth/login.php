@@ -26,7 +26,7 @@
                             <div class="p-5">
                                 <br>
                                 <div class="text-center">
-                                    <h1 class="h3 text-gray-900 mb-1 font-weight-bolder">SISTEM KEUANGAN</h1>
+                                    <h1 class="h3 text-gray-900 mb-1 font-weight-bolder">SISTEM ADMINISTRASI</h1>
                                     <h4 class="h4 text-gray-900 mb-1 font-weight-200">SIPLah Toko Ladang Cabang Lampung</h1>
                                 </div>
                     

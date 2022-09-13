@@ -101,9 +101,8 @@ $(document).ready(function() {
     $('#harga_beli').keyup(function() {
         var beli = parseInt($('#harga_beli').val());
 
-        var a = beli + (beli * 0.11);
-        var b = a * 0.2;
-        var h_jual = a + b;
+        var a = beli + (beli * 0.11) + (beli*0.015);
+        var h_jual = a;
         $('#harga_jual').val(h_jual);
     });
 });

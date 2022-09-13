@@ -132,5 +132,5 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Data_apotek');
+$autoload['model'] = array('Data_toko');
 // $autoload['model'] = array('m_apotek');

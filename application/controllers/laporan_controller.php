@@ -6,12 +6,12 @@ class Laporan_controller extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Laporan_model');
-        $this->load->model('Data_apotek');
+        $this->load->model('Data_toko');
         $this->load->library('form_validation');
         $this->load->library('session');
 
-        $data['habis'] = $this->Data_apotek->countstock();
-        $data['hampir_habis'] = $this->Data_apotek->hampir_habis();
+        $data['habis'] = $this->Data_toko->countstock();
+        $data['hampir_habis'] = $this->Data_toko->hampir_habis();
         $this->load->view('templates/topbar', $data, true);
 
     }
@@ -22,8 +22,8 @@ class Laporan_controller extends CI_Controller {
         $data['title'] = 'Laporan Penjualan     ';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         
-        $data['get_wil'] = $this->Data_apotek->get_wilayah();
-        $data['get_sal'] = $this->Data_apotek->get_sales();
+        $data['get_wil'] = $this->Data_toko->get_wilayah();
+        $data['get_sal'] = $this->Data_toko->get_sales();
         $data["tahun"] = $this->Laporan_model->gettahun();
 
         $this->load->view('templates/header', $data);

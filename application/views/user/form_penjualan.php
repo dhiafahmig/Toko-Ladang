@@ -70,8 +70,9 @@
                                     <th style="text-align: center">Kategori</th>
                                     <th style="text-align: center">Harga</th>
                                     <th style="text-align: center">Banyak</th>
-
                                     <th style="text-align: center">Subtotal</th>
+
+                                    <th style="text-align: center">Diskon</th>
                                     <th style="text-align: center">Aksi</th>
 
                                 </tr>
@@ -133,16 +134,18 @@ addpenjualan.onclick = function(event) {
         counter + '" name="nama_sales[]"><option selected="true" value="" disabled ></option><?php foreach ($get_sal as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
         '<select required="required" style="width:100%" class="form-control nama_barang" id="nama_barang' +
         counter + '" name="nama_barang[]" data-stok="#stok' + counter + '" data-nama_kat="#nama_kat' +
-        counter + '" data-h_beli="#h_beli' + counter +
+        counter + '" data-h_jual="#h_jual' + counter +
         '"><option selected="true" value="" disabled ></option><?php foreach ($get_bar as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
         '<input id="stok' + counter + '" name="stok[]" class="form-control stok" readonly >',
         '<input id="nama_kat' + counter + '" name="nama_kat[]" class="form-control" readonly>',
-        '<input id="h_beli' + counter +
-        '" name="h_beli[]" class="form-control h_beli" readonly>',
+        '<input id="h_jual' + counter +
+        '" name="h_jual[]" class="form-control h_jual" readonly>',
         '<input type="number" id="banyak' + counter +
         '" name="banyak[]" class="form-control banyak" required="required">',
         '<input id="subtotal' + counter +
         '" name="subtotal[]" class="form-control subtotal" readonly>',
+        '<input type="number" id="diskon' + counter +
+        '" name="diskon[]" class="form-control diskon" required="required">',
         '<button id="removeproduk" class="btn btn-danger btn-sm" type="button"><span class="fa fa-trash"></span> Hapus</button>',
     ]).draw(false);
 
@@ -184,10 +187,10 @@ $('#penjualan').on('change', '.nama_barang', function() {
         },
         cache: false,
         success: function(data) {
-            $.each(data, function(nama_barang, stok, nama_kat, h_beli) {
+            $.each(data, function(nama_barang, stok, nama_kat, h_jual) {
                 $($select.data('stok')).val(data.stok);
                 $($select.data('nama_kat')).val(data.nama_kat);
-                $($select.data('h_beli')).val(data.h_beli);
+                $($select.data('h_jual')).val(data.h_jual);
             });
         }
     });
@@ -204,6 +207,7 @@ function updateSubtotalp() {
         var $row = $(this).closest('tr');
         var unitStock = parseInt($row.find('.stok').val());
         var unitCount = parseInt($row.find('.banyak').val());
+        var unitDiscount = parseInt($row.find('.diskon').val());
 
 
         if (unitCount > unitStock) {
@@ -214,7 +218,7 @@ function updateSubtotalp() {
             $row.find('.banyak').val(0);
             updateSubtotalp();
         } else {
-            var Sub = parseInt(($row.find('.h_beli').val()) * unitCount);
+            var Sub = parseInt(($row.find('.h_jual').val()) * unitCount);
             $row.find('.subtotal').val(Sub);
             updateTotal();
         }
@@ -264,3 +268,16 @@ function updateTotal() {
         }
     });
     </script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#harga_jual').keyup(function() {
+        var jual = parseInt($('#harga_jual').val());
+
+        var a = beli * diskon;
+        var subtotal = a;
+        $('#harga_jual').val(h_jual);
+    });
+});
+</script>
