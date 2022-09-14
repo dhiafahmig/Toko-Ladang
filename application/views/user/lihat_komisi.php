@@ -5,8 +5,6 @@
             <h6 class="m-0 font-weight-bold text-dark"><?= $title; ?></h6>
         </div>
         <div class="card-body">
-            <a href="<?php echo base_url('user/form_penjualan'); ?>"><button class="btn btn-success mb-3">
-                    <i class="fas fa-plus"> Tambah Penjualan</i></button></a>
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -22,6 +20,7 @@
                             <th>Harga Jual</th>
                             <th>Banyak</th>
                             <th>Total</th>
+                            <th>Komisi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -40,6 +39,7 @@
                             <td>Rp <?= number_format($data->h_jual); ?></td>
                             <td><?= $data->banyak; ?></td>
                             <td>Rp <?php echo number_format($data->grandtotal) ?></td>
+                            <td>Rp <?php echo number_format($data->komisi) ?></td>
                             <td style=" text-align: center;">
                                 <a href="<?= base_url('user/lihat_nota_penjualan/'). $data->ref?>"><button type="button"
                                         class="sbtn btn-success"><i class="fas fa-file-invoice"></i></button></a>
@@ -69,7 +69,6 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
-
 <script>
 $(document).ready(function() {
     $('#dataTable').DataTable({
@@ -80,3 +79,4 @@ $(document).ready(function() {
     });
 });
 </script>
+

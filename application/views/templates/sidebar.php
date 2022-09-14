@@ -93,6 +93,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="<?= base_url('user/form_sales')?>">Tambah Sales</a>
                 <a class="collapse-item" href="<?= base_url('user/lihat_sales')?>">Lihat Sales</a>
+                <a class="collapse-item" href="<?= base_url('user/lihat_komisi')?>">Lihat Komisi</a>
             </div>
         </div>
     </li>

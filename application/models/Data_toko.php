@@ -426,6 +426,7 @@ class Data_toko extends CI_Model
             $diskon = $this->input->post('diskon');
 			$banyak = $this->input->post('banyak');
 			$subtotal = $this->input->post('subtotal');
+        
 
 		foreach($nama_barang as $key=>$val){
 		   
@@ -442,6 +443,7 @@ class Data_toko extends CI_Model
 				'h_jual' => $h_jual[$key],
 				'banyak' => $banyak[$key],
 				'subtotal' => $subtotal[$key],
+                'komisi' => $grandtotal*0.05,
 				);
 
 		$this->db->set('stok', 'stok-'.$banyak[$key], FALSE);
