@@ -59,8 +59,6 @@
                             </div>
                         </div>
 
-
-
                         <table id="penjualan" class="table table-bordered">
                             <thead>
                                 <tr>
@@ -223,10 +221,14 @@ function updateSubtotalp() {
         } else if (unitCount < 0) {
             $row.find('.banyak').val(0);
             updateSubtotalp();
+        } else if (unitDiscount < 0) {
+            $row.find('.diskon').val(0);
+            updateSubtotalp();
         } else {
             var Sub = parseInt(($row.find('.h_jual').val()) * unitCount);
             var TotDiskon = parseInt(Sub * (unitDiscount / 100));
-            $row.find('.subtotal').val(TotDiskon);
+            var Result = parseInt(Sub - TotDiskon);
+            $row.find('.subtotal').val(Result);
             updateTotal();
         }
     });
