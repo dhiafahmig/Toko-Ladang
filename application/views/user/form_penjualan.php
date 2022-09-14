@@ -42,8 +42,8 @@
                                 <label for="wilayah" class="col-form-label">Wilayah</label>
                             </div>
                             <div class="col-3">
-						    <input type="text" name="wilayah" id="wilayah" class="form-control" readonly required>
-					    </div>
+                                <input type="text" name="wilayah" id="wilayah" class="form-control" readonly required>
+                            </div>
                         </div>
 
                         <div class="row justify-content-center pt-2 mb-4">
@@ -112,7 +112,8 @@
 </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
@@ -131,7 +132,8 @@ var counter = 1;
 addpenjualan.onclick = function(event) {
     penjualan.row.add([
         '<select required="required" style="width:100%" class="form-control nama_sales" id="nama_sales' +
-        counter + '" name="nama_sales[]"><option selected="true" value="" disabled ></option><?php foreach ($get_sal as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
+        counter +
+        '" name="nama_sales[]"><option selected="true" value="" disabled ></option><?php foreach ($get_sal as $gm) { ?><option value="<?php echo $gm; ?>"><?php echo $gm; ?></option><?php  } ?></select>',
         '<select required="required" style="width:100%" class="form-control nama_barang" id="nama_barang' +
         counter + '" name="nama_barang[]" data-stok="#stok' + counter + '" data-nama_kat="#nama_kat' +
         counter + '" data-h_jual="#h_jual' + counter +
@@ -201,9 +203,13 @@ $('#penjualan').on('change', '.banyak', function() {
     updateSubtotalp();
 });
 
+$('#penjualan').on('change', '.diskon', function() {
+    updateSubtotalp();
+});
+
 function updateSubtotalp() {
 
-    $(".banyak").each(function() {
+    $(".banyak, .diskon").each(function() {
         var $row = $(this).closest('tr');
         var unitStock = parseInt($row.find('.stok').val());
         var unitCount = parseInt($row.find('.banyak').val());
@@ -219,7 +225,8 @@ function updateSubtotalp() {
             updateSubtotalp();
         } else {
             var Sub = parseInt(($row.find('.h_jual').val()) * unitCount);
-            $row.find('.subtotal').val(Sub);
+            var TotDiskon = parseInt(Sub * (unitDiscount / 100));
+            $row.find('.subtotal').val(TotDiskon);
             updateTotal();
         }
     });
@@ -235,39 +242,39 @@ function updateTotal() {
 </script>
 
 <script type="text/javascript">
+$(document).ready(function() {
+
     $(document).ready(function() {
+        // $('#id_prodi').hide();
+        tampil_wil();
+    })
 
-        $(document).ready(function() {
-            // $('#id_prodi').hide();
-            tampil_wil();
-        })
+    function tampil_wil() {
+        $('#nama_sekolah').change(function() {
+            let get_data_wil = $('#nama_sekolah').val();
 
-        function tampil_wil() {
-            $('#nama_sekolah').change(function() {
-                let get_data_wil = $('#nama_sekolah').val();
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    nama_sekolah: get_data_wil
+                },
+                url: "<?= base_url("user/get_data_wil") ?>",
+                success: function(data) {
+                    // console.log(data);
 
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    data: {
-                        nama_sekolah: get_data_wil
-                    },
-                    url: "<?= base_url("user/get_data_wil") ?>",
-                    success: function(data) {
-                        // console.log(data);
+                    let html = "";
+                    let i;
 
-                        let html = "";
-                        let i;
-
-                        for (i = 0; i < data.length; i++) {
-                            $("#wilayah").val(data[i].wilayah);
-                        }
+                    for (i = 0; i < data.length; i++) {
+                        $("#wilayah").val(data[i].wilayah);
                     }
-                });
-            })
-        }
-    });
-    </script>
+                }
+            });
+        })
+    }
+});
+</script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
