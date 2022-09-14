@@ -23,7 +23,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Obat</th>
+                            <th>Nama Barang</th>
                             <th>Brand</th>
                             <th>Kategori</th>
                             <th>Stok</th>
