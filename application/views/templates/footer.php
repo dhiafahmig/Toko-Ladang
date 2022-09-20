@@ -2,12 +2,14 @@
 <footer class="sticky bg-white fixed-bottom">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <marquee scrollamount="5 " style="color:#f59393;">
+            <marquee scrollamount="5 " style="color:#c47043;">
             <span>Sistem Keuangan SIPLah Toko Ladang <?= date('Y'); ?></span>
             </marquee>
         </div>
     </div>
 </footer>
+
+
 <!-- End of Footer -->
 
 </div>

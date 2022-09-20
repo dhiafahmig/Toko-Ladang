@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion font-weight-bold" style="background: #d1ad7b;"
+<ul class="navbar-nav sidebar sidebar-dark accordion font-weight-bold" style="background: #919ba8;"
     id="accordionSidebar">
     <!-- Sidebar - LOGO-->
     <br>
@@ -8,8 +8,8 @@
     <div class="d-flex justify-content-center">
         <!-- logo info -->
         <div class=" logo_pic">
-            <img src="<?php echo base_url('assets/img/profile/tokoladang3.png') ?>" alt="..." class="img-circle" width="200"
-                height="90"></a>
+            <img src="<?php echo base_url('assets/img/profile/logo_fix.png') ?>" alt="..." class="img-circle" width="215"
+                height="94"></a>
         </div>
     </div>
     <br>
@@ -137,3 +137,9 @@
 
 </ul>
 <!-- End of Sidebar -->
+
+<body
+    style="background:url('assets/img/profile/bg8.jpeg');
+    background-repeat:no-repeat;
+    background-size:100%;">        
+</body>

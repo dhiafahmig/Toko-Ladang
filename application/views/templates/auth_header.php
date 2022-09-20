@@ -24,4 +24,7 @@
 
 </head>
 
-<body style="background:white ;">
+<body
+    style="background:url('assets/img/profile/bg8.jpeg');
+    background-repeat:no-repeat;
+    background-size:100%;">        
