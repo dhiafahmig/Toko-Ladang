@@ -148,6 +148,23 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+         // method lihat penjualan
+         public function lihat_komisi()
+         {
+             $data['title'] = 'Komisi Sales';
+             $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+     
+             // queri pemanggilan tabel di DB
+             $data['penjualan'] = $this->Data_toko->getDataToko('tb_penjualan');
+             $data['tb_jual'] = $this->Data_toko->penjualan()->result();
+     
+             $this->load->view('templates/header', $data);
+             $this->load->view('templates/sidebar', $data);
+             $this->load->view('templates/topbar', $data);
+             $this->load->view('user/lihat_komisi', $data);
+             $this->load->view('templates/footer');
+         }
+
 
 
     // WILAYAH INPUT INPUT DATA

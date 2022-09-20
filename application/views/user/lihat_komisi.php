@@ -5,51 +5,47 @@
             <h6 class="m-0 font-weight-bold text-dark"><?= $title; ?></h6>
         </div>
         <div class="card-body">
-            <!-- notifikasi data berhasil ditambahkan -->
-            <?php if ($this->session->flashdata('flash') ) : ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                Data Obat <strong>Berhasil</strong> <?= $this->session->flashdata('flash'); ?>!
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <?php endif; ?>
-            <a href="<?php echo base_url('user/form_barang'); ?>"><button class="btn btn-success mb-3">
-                    <i class="fas fa-plus"> Tambah Barang</i></button></a>
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Kode Referensi</th>
+                            <th>Nama Sales</th>
+                            <th>Nama Pembeli</th>
+                            <th>Nama Sekolah</th>
+                            <th>Wilayah</th>
+                            <th>Tanggal Jual</th>
                             <th>Nama Barang</th>
-                            <th>Brand</th>
-                            <th>Kategori</th>
-                            <th>Stok</th>
                             <th>Harga Jual</th>
+                            <th>Banyak</th>
+                            <th>Total</th>
+                            <th>Komisi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $i = 1; 
-                        foreach ($barang as $data) : 
+                        foreach ($tb_jual as $data) : 
                     ?>
                         <tr>
-                            <td><?= $i++; ?></td>
+                            <td><?= $data->ref; ?></td>
+                            <td><?= $data->nama_sales; ?></td>
+                            <td><?= $data->nama_pembeli; ?></td>
+                            <td><?= $data->nama_sekolah; ?></td>
+                            <td><?= $data->wilayah; ?></td>
+                            <td><?= date('j F Y',strtotime($data->tgl_beli)); ?></td>
                             <td><?= $data->nama_barang; ?></td>
-                            <td><?= $data->nama_brand; ?></td>
-                            <td><?= $data->nama_kat; ?></td>
-                            <td><?= $data->stok; ?></td>
-                            <td>Rp<?= number_format($data->h_jual); ?></td>
-                            <td>
-                                <a href="<?= base_url('user/edit_barang/'). $data->id_barang?>"><button type="edit"
-                                        class="sbtn btn-success"><i class="fas fa-edit"></i></button></a>
-
-                                <a href="<?= base_url('user/hapus_barang/'). $data->id_barang?>"><button type="delete"
-                                        class="sbtn btn-danger" onclick="return confirm('Yakin?')"><i
-                                            class="fas fa-trash"></i></button></a>
+                            <td>Rp <?= number_format($data->h_jual); ?></td>
+                            <td><?= $data->banyak; ?></td>
+                            <td>Rp <?php echo number_format($data->grandtotal) ?></td>
+                            <td>Rp <?php echo number_format($data->komisi) ?></td>
+                            <td style=" text-align: center;">
+                                <a href="<?= base_url('user/lihat_nota_penjualan/'). $data->ref?>"><button type="button"
+                                        class="sbtn btn-success"><i class="fas fa-file-invoice"></i></button></a>
+                                 <a href="<?= base_url('user/hapus_penjualan/'). $data->id_jual?>"><button type="delete"
+                                        class="sbtn btn-danger" onclick="return confirm ('yakin?')"><i 
+                                        class="fas fa-trash"></i></button></a>
                             </td>
                         </tr>
 
@@ -83,3 +79,4 @@ $(document).ready(function() {
     });
 });
 </script>
+
